@@ -1,0 +1,20 @@
+.wrap {
+  padding: 20px;
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+.title { color: var(--color-text-primary); font-weight: 500; }
+.retry {
+  background: var(--color-accent);
+  color: var(--color-text-on-accent);
+  border: 0;
+  padding: 10px 16px;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+}
+.retry:hover { background: var(--color-accent-strong); }

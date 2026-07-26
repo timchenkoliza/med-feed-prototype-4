@@ -1,0 +1,101 @@
+.wrap {
+  padding: 60px 24px 40px;
+  text-align: center;
+  overflow-y: auto;
+  height: 100%;
+}
+.title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.subtitle { margin: 6px 0 24px; color: var(--color-text-secondary); }
+.limit {
+  padding: 16px 18px;
+  background: var(--color-surface-2);
+  border-radius: var(--radius-lg);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-sm);
+}
+.hint {
+  margin-top: 20px;
+  color: var(--color-text-tertiary);
+  font-size: var(--fs-xs);
+}
+
+.savedWrap { height: 100%; display: flex; flex-direction: column; }
+.savedHead { padding: 4px 20px 8px; }
+.savedScroll {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px 16px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.profileWrap {
+  padding: 8px 20px 20px;
+  height: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.profileHead {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 8px 0;
+}
+.profileAvatar {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #b4a7f5, #8f7ff0);
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 18px;
+}
+.profileName {
+  font-family: var(--font-heading);
+  font-size: var(--fs-xl);
+  font-weight: 600;
+}
+.profileRole { color: var(--color-text-secondary); font-size: var(--fs-sm); margin-top: 2px; }
+
+.sectionLabel {
+  font-size: 11px;
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chip {
+  padding: 6px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--color-surface-2);
+  color: var(--color-text-secondary);
+  font-size: var(--fs-xs);
+}
+.settings {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: #fff;
+  overflow: hidden;
+}
+.settings li {
+  padding: 14px 16px;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-primary);
+  font-size: var(--fs-md);
+}
+.settings li:first-child { border-top: 0; }

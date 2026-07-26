@@ -1,0 +1,25 @@
+.wrap {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  z-index: var(--z-device-switch);
+  background: #17181c;
+  color: #fff;
+  padding: 6px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--fs-sm);
+  box-shadow: var(--shadow-md);
+}
+.label { padding: 0 10px; color: rgba(255,255,255,0.6); }
+.btn {
+  padding: 8px 14px;
+  border-radius: var(--radius-pill);
+  color: rgba(255,255,255,0.85);
+  display: inline-flex;
+  align-items: center;
+}
+.btn:hover { background: rgba(255,255,255,0.08); }
+.active { background: #ffffff; color: #17181c; }

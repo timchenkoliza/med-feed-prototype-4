@@ -1,0 +1,11 @@
+[
+  { "id": "minzdrav",  "name": "Минздрав России", "status": "official", "domain": "minzdrav.gov.ru" },
+  { "id": "rko",       "name": "Российское кардиологическое общество", "status": "professional_association", "domain": "scardio.ru" },
+  { "id": "nmic_card", "name": "НМИЦ кардиологии им. Чазова", "status": "verified", "domain": "cardioweb.ru" },
+  { "id": "lancet",    "name": "The Lancet", "status": "peer_reviewed", "domain": "thelancet.com" },
+  { "id": "jama",      "name": "JAMA", "status": "peer_reviewed", "domain": "jamanetwork.com" },
+  { "id": "bmj",       "name": "BMJ", "status": "peer_reviewed", "domain": "bmj.com" },
+  { "id": "nejm",      "name": "New England Journal of Medicine", "status": "peer_reviewed", "domain": "nejm.org" },
+  { "id": "esc",       "name": "European Society of Cardiology", "status": "professional_association", "domain": "escardio.org" },
+  { "id": "cochrane",  "name": "Cochrane Library", "status": "verified", "domain": "cochranelibrary.com" }
+]

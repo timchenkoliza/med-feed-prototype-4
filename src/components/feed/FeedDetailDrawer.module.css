@@ -1,0 +1,111 @@
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(23,24,28,0.32);
+  z-index: var(--z-drawer);
+  display: flex;
+  justify-content: flex-end;
+}
+.drawer {
+  width: min(720px, 100%);
+  height: 100%;
+  background: #fff;
+  display: flex;
+  flex-direction: column;
+  box-shadow: -20px 0 60px rgba(20,20,30,0.12);
+  animation: slideIn 0.24s ease;
+}
+@keyframes slideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+.head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px 12px;
+  border-bottom: 1px solid var(--color-border);
+}
+.close {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  color: var(--color-text-secondary);
+}
+.close:hover { background: var(--color-surface-1); }
+
+.scroll {
+  padding: 24px 28px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.title {
+  margin: 0;
+  font-family: var(--font-heading);
+  font-size: var(--fs-2xl);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+.metaGrid { display: flex; flex-direction: column; gap: 8px; }
+.metaLine {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: var(--fs-xs);
+  color: var(--color-text-tertiary);
+}
+.readingChip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.summaryBox {
+  background: var(--color-surface-1);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+}
+.sectionLabel {
+  font-size: var(--fs-xs);
+  color: var(--color-text-tertiary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.summary {
+  margin: 0;
+  color: var(--color-text-primary);
+  line-height: var(--lh-relaxed);
+}
+.body {
+  margin: 0;
+  color: var(--color-text-primary);
+  line-height: var(--lh-relaxed);
+}
+.impact {
+  background: var(--color-accent-soft);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+}
+.impact .sectionLabel { color: var(--color-accent-ink); }
+.sourceList { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.sourceLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--color-accent-ink);
+  font-weight: 500;
+  padding: 8px 0;
+}
+.sourceLink:hover { text-decoration: underline; }
+.footer {
+  display: flex;
+  gap: 12px;
+  padding: 16px 28px;
+  border-top: 1px solid var(--color-border);
+}
