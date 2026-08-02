@@ -33,6 +33,15 @@ export type IconName =
   | 'clock'
   | 'arrow-left'
   | 'compass'
+  | 'calendar'
+  | 'play'
+  | 'mic'
+  | 'wallet'
+  | 'award'
+  | 'eye-off'
+  | 'sliders'
+  | 'book'
+  | 'pin'
 
 const paths: Record<IconName, JSX.Element> = {
   plus: <path d="M12 5v14M5 12h14" />,
@@ -134,6 +143,62 @@ const paths: Record<IconName, JSX.Element> = {
     <>
       <circle cx="12" cy="12" r="9" />
       <path d="M15 9l-2 5-5 2 2-5 5-2z" />
+    </>
+  ),
+  calendar: (
+    <>
+      <rect x="3" y="5" width="18" height="16" rx="3" />
+      <path d="M3 10h18M8 3v4M16 3v4" />
+    </>
+  ),
+  play: (
+    <>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M10 8.5l6 3.5-6 3.5v-7z" fill="currentColor" />
+    </>
+  ),
+  mic: (
+    <>
+      <rect x="9" y="3" width="6" height="11" rx="3" />
+      <path d="M5 11a7 7 0 0014 0M12 18v3" />
+    </>
+  ),
+  wallet: (
+    <>
+      <rect x="3" y="6" width="18" height="13" rx="3" />
+      <path d="M16 12h3" />
+    </>
+  ),
+  award: (
+    <>
+      <circle cx="12" cy="9" r="5" />
+      <path d="M9 13.5L8 21l4-2 4 2-1-7.5" />
+    </>
+  ),
+  'eye-off': (
+    <>
+      <path d="M3 3l18 18" />
+      <path d="M10.6 6.2A9.9 9.9 0 0112 6c5 0 9 6 9 6a15 15 0 01-3 3.4M6.3 8.3A15.6 15.6 0 003 12s4 6 9 6a9.4 9.4 0 004-.9" />
+      <path d="M9.9 10.2a3 3 0 004.2 4.2" />
+    </>
+  ),
+  sliders: (
+    <>
+      <path d="M4 7h10M18 7h2M4 17h4M12 17h8" />
+      <circle cx="16" cy="7" r="2" />
+      <circle cx="10" cy="17" r="2" />
+    </>
+  ),
+  book: (
+    <>
+      <path d="M5 4h11a3 3 0 013 3v13H8a3 3 0 00-3 3V4z" />
+      <path d="M5 19a3 3 0 013-3h11" />
+    </>
+  ),
+  pin: (
+    <>
+      <path d="M12 21s7-6.2 7-11a7 7 0 10-14 0c0 4.8 7 11 7 11z" />
+      <circle cx="12" cy="10" r="2.5" />
     </>
   ),
 }

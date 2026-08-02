@@ -4,10 +4,17 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "preview": "vite preview",
-    "typecheck": "tsc -b --noEmit"
+    "dev": "FEED=a vite",
+    "dev:a": "FEED=a vite",
+    "dev:b": "FEED=b vite",
+    "dev:prototype": "vite",
+    "build": "tsc -b && npm run build:a && npm run build:b && node scripts/inline-assets.mjs && node scripts/build-landing.mjs",
+    "build:a": "FEED=a vite build",
+    "build:b": "FEED=b vite build",
+    "build:prototype": "vite build",
+    "preview": "vite preview --outDir dist --port 4173",
+    "typecheck": "tsc -b --noEmit",
+    "build:pages": "npm run build && rm -rf docs && cp -R dist docs && touch docs/.nojekyll"
   },
   "dependencies": {
     "react": "^18.3.1",
