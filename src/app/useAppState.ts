@@ -4,10 +4,51 @@ import { breakpoint, feedRules, relevance, viewportWidth } from '../config/desig
 import { readQuery, ui } from './config'
 import feedAData from './data/feedA.json'
 import feedBData from './data/feedB.json'
+import generatedFeedItems from '../data/generated/feedItems.json'
 import type { FeedId, FeedItem, LayoutMode, Section, SpecialtyId, UserState, Viewport } from './types'
 import { emptyUserState } from './types'
 
-const pool = [...(feedAData as FeedItem[]), ...(feedBData as FeedItem[])]
+interface GeneratedFeedItem {
+  id: string
+  sourceId?: string
+  title?: string
+  summary?: string
+  originalUrl?: string
+  imageUrl?: string | null
+  publishedAt?: string | null
+  feedKind?: FeedId
+  contentType?: string
+  specialties?: SpecialtyId[]
+  ingestionStatus?: string
+}
+
+/** Best-effort mapping from the ingestion pipeline's normalized shape to the UI's FeedItem. */
+function fromGenerated(g: GeneratedFeedItem): FeedItem {
+  return {
+    id: g.id,
+    feed: g.feedKind ?? 'B',
+    type: 'pharma_medtech',
+    primary: g.specialties && g.specialties.length > 0 ? g.specialties : [],
+    general: !g.specialties || g.specialties.length === 0,
+    title: g.title ?? '',
+    source: { name: g.sourceId ?? 'Внешний источник', kind: 'media' },
+    url: g.originalUrl ?? '#',
+    date: g.publishedAt ?? new Date().toISOString(),
+    readMin: 3,
+    summary: g.summary ?? '',
+    why: g.summary ?? '',
+    media: g.imageUrl ? { kind: 'cover', src: g.imageUrl, alt: g.title ?? '' } : null,
+    detail: { lead: g.summary ?? '', blocks: g.summary ? [{ t: 'p', v: g.summary }] : [] },
+  }
+}
+
+/** Generated data (real ingestion) takes over only once it produces actual items; empty/absent → mock fixtures. */
+const generated = (generatedFeedItems as GeneratedFeedItem[] | undefined) ?? []
+const pool =
+  generated.length > 0
+    ? generated.map(fromGenerated)
+    : [...(feedAData as FeedItem[]), ...(feedBData as FeedItem[])]
+
 const TODAY = new Date('2026-08-02T00:00:00')
 
 function detectViewport(): Viewport {
@@ -90,10 +131,22 @@ function matchesQuery(item: FeedItem, q: string): boolean {
   )
 }
 
-export function useAppState() {
+export const feedKindStorageKey = 'medya.feed.kind'
+
+function readStoredFeed(): FeedId | null {
+  if (typeof window === 'undefined') return null
+  const raw = window.localStorage.getItem(feedKindStorageKey)
+  return raw === 'A' || raw === 'B' ? raw : null
+}
+
+export function useAppState(initialFeed?: FeedId) {
   const q = useMemo(() => readQuery(), [])
   const [state, setState] = useLocalStorage<UserState>(ui.storageKey, emptyUserState)
-  const [feed, setFeed] = useState<FeedId>(q.feed ?? 'A')
+  const [feed, setFeedState] = useState<FeedId>(q.feed ?? initialFeed ?? readStoredFeed() ?? 'A')
+  const setFeed = useCallback((f: FeedId) => {
+    setFeedState(f)
+    try { window.localStorage.setItem(feedKindStorageKey, f) } catch { /* quota or private mode */ }
+  }, [])
   const [specialty, setSpecialty] = useState<SpecialtyId>(q.specialty ?? 'therapist')
   const [type, setType] = useState<string>('all')
   const [section, setSection] = useState<Section>('feed')

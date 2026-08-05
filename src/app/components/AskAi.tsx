@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from '../../components/common/Icon'
-import { ui } from '../config'
+import { evidenceLabel, ui } from '../config'
 import { eventDate } from '../format'
 import type { FeedItem } from '../types'
 import { Overlay } from './Overlay'
@@ -16,7 +16,8 @@ function answer(item: FeedItem, q: string): string {
   const paras = item.detail.blocks.filter(b => b.t === 'p').map(b => (b as { v: string }).v)
 
   if (s.includes('надёж') || s.includes('надеж') || s.includes('доказ') || s.includes('данн')) {
-    const base = item.evidenceNote ? `${item.evidence ? `Уровень доказательности ${item.evidence}. ` : ''}${item.evidenceNote}` : item.summary
+    const evidence = evidenceLabel(item.evidence)
+    const base = item.evidenceNote ? `${evidence ? `${evidence}. ` : ''}${item.evidenceNote}` : item.summary
     return item.limitations ? `${base}\n\nОграничения: ${item.limitations}` : base
   }
   if (s.includes('измен')) return `${item.summary}\n\nЧто это меняет: ${item.why}`

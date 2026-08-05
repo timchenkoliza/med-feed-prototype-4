@@ -1,5 +1,5 @@
 import { Icon } from '../../components/common/Icon'
-import { primaryActionLabel, typeLabels } from '../config'
+import { evidenceLabel, typeLabels } from '../config'
 import { dayMonth, eventDate } from '../format'
 import type { FeedItem } from '../types'
 import { CardMenu, type MenuActions } from './CardMenu'
@@ -10,33 +10,17 @@ interface Props {
   registered: boolean
   onOpen: () => void
   onPrimary: () => void
+  onCategory: () => void
   menu: MenuActions
 }
 
-export function Card({ item, hero, registered, onOpen, onPrimary, menu }: Props) {
+export function Card({ item, hero, registered, onOpen, onPrimary, onCategory, menu }: Props) {
   const isVideo = item.media?.kind === 'video'
-  const label = primaryActionLabel(item.type, !!item.event)
-
-  const activate = (e: React.MouseEvent | React.KeyboardEvent) => {
-    if ((e.target as HTMLElement).closest('button, a')) return
-    onOpen()
-  }
+  const isClinical = item.feed === 'A'
+  const evidence = isClinical ? evidenceLabel(item.evidence) : null
 
   return (
-    <article
-      className={`card${hero ? ' card--hero feed__wide' : ''}`}
-      role="button"
-      tabIndex={0}
-      aria-label={`Открыть материал: ${item.title}`}
-      onClick={activate}
-      onKeyDown={e => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          if ((e.target as HTMLElement).closest('button, a')) return
-          e.preventDefault()
-          onOpen()
-        }
-      }}
-    >
+    <article className={`card${hero ? ' card--hero feed__wide' : ''}`} data-feed={item.feed}>
       {item.media && (
         <div className="card__cover">
           <img src={item.media.src} alt={item.media.alt} loading="lazy" />
@@ -52,18 +36,36 @@ export function Card({ item, hero, registered, onOpen, onPrimary, menu }: Props)
       )}
 
       <div className="card__kicker">
-        <span className={`tag${item.type === 'safety_alert' ? ' tag--alert' : ''}`}>{typeLabels[item.type]}</span>
+        <button
+          type="button"
+          className={`tag tag--filter${item.type === 'safety_alert' ? ' tag--alert' : ''}`}
+          onClick={onCategory}
+          aria-label={`Фильтр по типу «${typeLabels[item.type]}»`}
+        >
+          {typeLabels[item.type]}
+        </button>
         {item.ad && <span className="card__badge">Реклама</span>}
-        {item.evidence && (
-          <span className="ev"><Icon name="award" size={11} strokeWidth={2} />{item.evidence}</span>
+        {evidence && (
+          <span className="ev"><Icon name="award" size={11} strokeWidth={2} />{evidence}</span>
         )}
         <span className="dot">·</span>
         <span className="meta">{dayMonth(item.date)}</span>
         {hero && <><span className="dot">·</span><span className="meta">{item.readMin} мин чтения</span></>}
       </div>
 
-      <h3 className="card__title">{item.title}</h3>
+      <h3 className="card__title">
+        <button type="button" className="card__titlelink" onClick={onOpen}>
+          {item.title}
+        </button>
+      </h3>
       <p className="card__lead">{item.summary}</p>
+
+      {!isClinical && item.author && (
+        <div className="card__src card__src--author">
+          <Icon name="user" size={13} />
+          <span>{item.author}</span>
+        </div>
+      )}
 
       {item.event && (
         <div className="card__eventline">
@@ -74,22 +76,31 @@ export function Card({ item, hero, registered, onOpen, onPrimary, menu }: Props)
         </div>
       )}
 
+      {isClinical && item.why && (
+        <p className="card__impact"><b>Что это меняет в практике:</b> {item.why}</p>
+      )}
+
       <div className="card__src">
         <b>{item.source.name}</b>
-        {item.author && <><span className="dot">·</span><span>{item.author}</span></>}
+        {isClinical && item.author && <><span className="dot">·</span><span>{item.author}</span></>}
       </div>
 
       {item.ad && <p className="card__disclaimer">{item.ad.disclaimer}</p>}
 
+      {/* Единственное действие карточки — открыть материал по клику на карточку/заголовок.
+          Отдельная кнопка «Читать» убрана: она дублировала бы этот клик. */}
       <div className="card__foot">
-        <button
-          type="button"
-          className={item.event ? 'btn btn--primary' : 'btn btn--ghost'}
-          onClick={onPrimary}
-          disabled={!!item.event && registered}
-        >
-          {item.event && registered ? (<><Icon name="check" size={15} strokeWidth={2} />Вы зарегистрированы</>) : label}
-        </button>
+        {item.event && (
+          <button
+            type="button"
+            className="btn btn--primary"
+            onClick={onPrimary}
+            disabled={registered}
+          >
+            {registered ? (<><Icon name="check" size={15} strokeWidth={2} />Вы зарегистрированы</>) : 'Зарегистрироваться'}
+          </button>
+        )}
+        <span className="grow" />
         <CardMenu {...menu} />
       </div>
     </article>

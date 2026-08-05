@@ -51,6 +51,21 @@ export const sections: Array<{ id: Section; label: string; icon: 'feed' | 'bookm
   { id: 'profile', label: 'Профиль', icon: 'user' },
 ]
 
+/**
+ * Человеко-читаемая метка уровня доказательности. Внутренние коды вида
+ * «1A» / «2B» на UI не показываем — это единственный источник соответствия.
+ * Метка описывает только уровень доказательности, не путать с надёжностью
+ * источника или силой рекомендации — те требуют отдельных полей данных.
+ */
+export function evidenceLabel(code?: string): string | null {
+  if (!code) return null
+  const tier = code.trim()[0]
+  if (tier === '1') return 'Высокая доказательность'
+  if (tier === '2') return 'Средняя доказательность'
+  if (tier === '3') return 'Экспертное мнение'
+  return null
+}
+
 /** Основное действие карточки — ровно одно. */
 export function primaryActionLabel(type: ItemType, hasEvent: boolean): string {
   if (hasEvent) return 'Зарегистрироваться'
@@ -93,7 +108,7 @@ export function readQuery() {
     feed: feed === 'A' || feed === 'B' ? (feed as FeedId) : null,
     specialty: specialties.some(s => s.id === spec) ? (spec as SpecialtyId) : null,
     session: q.get('session'),
-    /** Панель исследователя: только в dev или по явному флагу. */
-    research: q.get('research') === '1' || (typeof import.meta !== 'undefined' && import.meta.env?.DEV === true),
+    /** Панель предпросмотра форматов: только в dev или по явному ?preview=1. */
+    research: q.get('preview') === '1' || q.get('research') === '1' || (typeof import.meta !== 'undefined' && import.meta.env?.DEV === true),
   }
 }

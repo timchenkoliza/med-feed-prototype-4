@@ -1,5 +1,5 @@
 import { Icon } from '../../components/common/Icon'
-import { sourceKindLabels, specialties, typeLabels } from '../config'
+import { evidenceLabel, sourceKindLabels, specialties, typeLabels } from '../config'
 import { eventDate, fullDate } from '../format'
 import type { Block, FeedItem } from '../types'
 
@@ -41,13 +41,15 @@ export function Article({ item, registered, onRegister, onAsk, onOpenSource }: P
   const audienceLabel = item.general
     ? 'Материал общего профессионального интереса'
     : audience.map(a => specialties.find(s => s.id === a)?.label ?? a).join(', ')
+  const evidence = item.feed === 'A' ? evidenceLabel(item.evidence) : null
+  const impactTitle = item.event ? 'Почему вам может быть полезно' : 'Что это меняет в практике'
 
   return (
     <article className="art">
       <div className="art__kicker">
         <span className={`tag${item.type === 'safety_alert' ? ' tag--alert' : ''}`}>{typeLabels[item.type]}</span>
         {item.ad && <span className="card__badge">Реклама</span>}
-        {item.evidence && <span className="ev"><Icon name="award" size={11} strokeWidth={2} />{item.evidence}</span>}
+        {evidence && <span className="ev"><Icon name="award" size={11} strokeWidth={2} />{evidence}</span>}
       </div>
 
       <h1 className="art__title">{item.title}</h1>
@@ -139,7 +141,7 @@ export function Article({ item, registered, onRegister, onAsk, onOpenSource }: P
       {item.evidenceNote && (
         <div className="art__box">
           <div className="art__label">Доказательная база</div>
-          <p className="art__p">{item.evidence ? `Уровень ${item.evidence}. ` : ''}{item.evidenceNote}</p>
+          <p className="art__p">{evidence ? `${evidence}. ` : ''}{item.evidenceNote}</p>
         </div>
       )}
 
@@ -151,7 +153,7 @@ export function Article({ item, registered, onRegister, onAsk, onOpenSource }: P
       )}
 
       <div className="art__box art__box--impact">
-        <div className="art__label">Что это меняет в практике</div>
+        <div className="art__label">{impactTitle}</div>
         <p className="art__p">{item.why}</p>
       </div>
 

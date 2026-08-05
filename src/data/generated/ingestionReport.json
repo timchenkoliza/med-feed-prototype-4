@@ -1,0 +1,291 @@
+{
+  "generatedAt": "2026-08-05T20:53:20.992Z",
+  "totalSources": 35,
+  "counts": {
+    "success": 0,
+    "failed": 0,
+    "requires_credentials": 35
+  },
+  "perSource": [
+    {
+      "id": "blogery-2",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/blog_kardiologa",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-3",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/doctorpavlova",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-4",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/dr_sychev",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-5",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/doctor_sitkina",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-6",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/bakaevadoc",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-7",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/oncodermatology",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-8",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/IMC_education",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-9",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/anesthesiologists_blog",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-10",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/pravomedapologists",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-11",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/bogdashevskaya",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-12",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/medicalksu",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-13",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/zametki_nevrologa",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-14",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/DrButriy",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-15",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/dmitry_beinusov",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-16",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/mfcexpert_news",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-17",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/GastroPub",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-18",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/cancer_care_weekly",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-19",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/oncofundamental",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-20",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/dr_fomin",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-21",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/medvedevaalexforever",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-22",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/oksana_rakutko",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-23",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/berdichevskayaAnna",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-24",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/clinresearch",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-25",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/dr_mayasina",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-26",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/drminoc",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-27",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/doctor_belokon",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-28",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/drmyasnikov",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-29",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/cardiodokstories",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-30",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/doctor_baryshnikova",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-31",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/dr_vaspol",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-32",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/cardiolog_chaykovskaya",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-33",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/drgrdolgushin",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-34",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/blagastrosasha",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-35",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/olyakrumkach",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    },
+    {
+      "id": "blogery-36",
+      "platform": "telegram",
+      "canonicalUrl": "https://t.me/dsemiryadov_official",
+      "status": "requires_credentials",
+      "reason": null,
+      "itemsFetched": 0
+    }
+  ]
+}

@@ -30,6 +30,12 @@ npm run preview
 
 Проверка типов без сборки: `npm run typecheck`.
 
+## Импорт источников и материалов (data ingestion)
+
+- `npm run sources:import` — читает CSV из `data/sources/` (по одному файлу на лист исходной таблицы), нормализует ссылки, определяет платформу (telegram/vk/website), дедуплицирует по canonical URL и пишет реестр в `src/data/generated/sourceRegistry.json`. Каждый источник помечается `reviewStatus: "review_required"` — счётчик подписчиков не является сигналом медицинского качества.
+- `npm run news:ingest` — для источников с `platform: "website"` пытается найти RSS/Atom-ленту и забрать до 3 последних материалов; для telegram/vk выставляет `ingestionStatus: "requires_credentials"` (без скрапинга и обхода авторизации). Результат — `src/data/generated/feedItems.json` и отчёт `src/data/generated/ingestionReport.json`. Если сгенерированная лента пуста, приложение использует существующие mock-фикстуры.
+- `npm run data:refresh` — оба шага подряд (`sources:import` → `news:ingest`).
+
 ## Маршруты
 
 | Path       | Что показывает                                                   |

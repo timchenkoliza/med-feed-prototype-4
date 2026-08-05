@@ -1,4 +1,5 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Icon } from '../components/common/Icon'
 import { viewportWidth } from '../config/design-contract'
 import { useToast } from '../hooks/useToast'
@@ -9,7 +10,7 @@ import { Overlay } from './components/Overlay'
 import { Register } from './components/Register'
 import { feeds, sections, specialties, typeFilters, typeLabels, ui } from './config'
 import { eventDate } from './format'
-import type { FeedItem, Section } from './types'
+import type { FeedId, FeedItem, Section } from './types'
 import { useAppState } from './useAppState'
 import './app.css'
 
@@ -20,15 +21,32 @@ const sectionTitle: Record<Section, string> = {
   profile: 'Профиль',
 }
 
-export default function App() {
-  const app = useAppState()
+export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
+  const app = useAppState(initialFeed)
   const { toast, show, dismiss } = useToast()
+  const navigate = useNavigate()
 
   const [detail, setDetail] = useState<FeedItem | null>(null)
   const [ai, setAi] = useState<FeedItem | null>(null)
   const [reg, setReg] = useState<FeedItem | null>(null)
   const [specOpen, setSpecOpen] = useState(false)
   const [filtersOpen, setFiltersOpen] = useState(false)
+  const specTriggerRef = useRef<HTMLButtonElement | null>(null)
+
+  useEffect(() => {
+    navigate(app.feed === 'B' ? '/professional' : '/clinical', { replace: true })
+  }, [app.feed, navigate])
+
+  const openSpecSelector = (e: React.MouseEvent<HTMLButtonElement>) => {
+    specTriggerRef.current = e.currentTarget
+    setSpecOpen(true)
+  }
+  const selectSpecialty = (id: (typeof specialties)[number]['id']) => {
+    app.setSpecialty(id)
+    setSpecOpen(false)
+    show('Лента пересобрана: обновлены материалы, события и фильтры')
+    specTriggerRef.current?.focus()
+  }
 
   const spec = specialties.find(s => s.id === app.specialty)!
   const feedMeta = feeds.find(f => f.id === app.feed)!
@@ -70,7 +88,6 @@ export default function App() {
             <div className="brand">
               <span className="brand__mark" aria-hidden>М</span>
               <span className="brand__name">{ui.product}</span>
-              <span className="brand__section">{ui.section}</span>
             </div>
 
             <div className="search">
@@ -91,7 +108,7 @@ export default function App() {
 
             <div className="hdr__actions">
               {isCompactUI && (
-                <button type="button" className="pillbtn" onClick={() => setSpecOpen(true)}>
+                <button type="button" className="pillbtn" onClick={openSpecSelector}>
                   <Icon name="user" size={15} />
                   {app.layoutMode === 'mobile' ? spec.short : spec.label}
                   <Icon name="chevron-down" size={14} />
@@ -174,11 +191,12 @@ export default function App() {
 
           <main>
             <div className="feedhead">
-              <h1 className="feedhead__title">{app.section === 'feed' ? feedMeta.title : sectionTitle[app.section]}</h1>
-              <span className="feedhead__meta">{spec.label} · {app.items.length} материалов</span>
+              {/* Тип ленты уже показан вкладками в шапке — здесь заголовок дублировать не нужно. */}
+              {app.section !== 'feed' && <h1 className="feedhead__title">{sectionTitle[app.section]}</h1>}
+              {app.section === 'feed' && <span className="feedhead__meta">{app.items.length} материалов</span>}
             </div>
 
-            <div className="feed">
+            <div className={`feed${app.feed === 'B' && app.section === 'feed' ? ' feed--grid' : ''}`}>
               {!isWide && (
                 <div className="inlinerail">
                   <div className="railcard">
@@ -212,6 +230,7 @@ export default function App() {
                   registered={app.isRegistered(item.id)}
                   onOpen={() => setDetail(item)}
                   onPrimary={() => openPrimary(item)}
+                  onCategory={() => app.setType(item.type)}
                   menu={menuFor(item)}
                 />
               ))}
@@ -269,7 +288,7 @@ export default function App() {
                 type="button"
                 className="bottomnav__item"
                 aria-current={app.section === s.id ? 'page' : undefined}
-                onClick={() => (s.id === 'profile' ? setSpecOpen(true) : app.setSection(s.id))}
+                onClick={e => (s.id === 'profile' ? openSpecSelector(e) : app.setSection(s.id))}
               >
                 <Icon name={s.icon} size={20} strokeWidth={1.7} />
                 {s.label}
@@ -396,20 +415,20 @@ export default function App() {
       )}
 
       {specOpen && (
-        <Overlay title="Специальность" onClose={() => setSpecOpen(false)} sheet>
+        <Overlay title="Выберите специальность" onClose={() => { setSpecOpen(false); specTriggerRef.current?.focus() }} sheet>
           {specialties.map(s => (
             <button
               key={s.id}
               type="button"
               className="optionrow"
               aria-pressed={app.specialty === s.id}
-              onClick={() => { app.setSpecialty(s.id); setSpecOpen(false) }}
+              onClick={() => selectSpecialty(s.id)}
             >
               <span>{s.label}</span>
               {app.specialty === s.id && <Icon name="check" size={17} />}
             </button>
           ))}
-          <p className="note">Лента пересобирается под выбранную специальность: меняются материалы, события и фильтры.</p>
+          <p className="note">Лента пересобрана: обновлены материалы, события и фильтры.</p>
         </Overlay>
       )}
 
