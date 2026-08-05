@@ -1,11 +1,6 @@
 import { Metrika } from './Metrika';
-// ... другие импорты
-  return (
-    <>
-      <Metrika />
-      {/* остальной код */}
-    </>
-  );
+import React from 'react';
+// ... остальные ваши импорты
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '../components/common/Icon'
@@ -30,6 +25,25 @@ const sectionTitle: Record<Section, string> = {
 }
 
 export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
+  return (
+    <>
+      
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function(m,e,t,r,i,k,a){
+        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)
+    })(window, document,'script','https://mc.yandex.ru/metrika/tag.js?id=111330306', 'ym');
+
+    ym(111330306, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", referrer: document.referrer, url: location.href, accurateTrackBounce:true, trackLinks:true});
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/111330306" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<Metrika />
+  
   const app = useAppState(initialFeed)
   const { toast, show, dismiss } = useToast()
   const navigate = useNavigate()
