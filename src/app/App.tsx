@@ -9,9 +9,6 @@ export function App() {
     </>
   );
 }
-
-export default App;
-
 import { useEffect, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Icon } from '../components/common/Icon'
