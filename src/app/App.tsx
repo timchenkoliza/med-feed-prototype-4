@@ -1,7 +1,5 @@
 import { Metrika } from './Metrika';
 // ... другие импорты
-
-export function App() {
   return (
     <>
       <Metrika />
