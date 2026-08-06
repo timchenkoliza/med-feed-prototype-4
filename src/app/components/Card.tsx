@@ -1,3 +1,4 @@
+import type { MouseEvent } from 'react'
 import { Icon } from '../../components/common/Icon'
 import { evidenceLabel, typeLabels } from '../config'
 import { dayMonth, eventDate } from '../format'
@@ -8,27 +9,41 @@ interface Props {
   item: FeedItem
   hero?: boolean
   registered: boolean
+  isSaved: boolean
+  isUseful: boolean
+  commentsCount: number
+  showShare?: boolean
+  actionsId?: string
   onOpen: () => void
   onPrimary: () => void
   onCategory: () => void
+  onToggleSave: () => void
+  onToggleUseful: () => void
+  onOpenComments: () => void
   menu: MenuActions
 }
 
-export function Card({ item, hero, registered, onOpen, onPrimary, onCategory, menu }: Props) {
+export function Card({
+  item, hero, registered, isSaved, isUseful, commentsCount, showShare, actionsId,
+  onOpen, onPrimary, onCategory, onToggleSave, onToggleUseful, onOpenComments, menu,
+}: Props) {
   const isVideo = item.media?.kind === 'video'
   const isClinical = item.feed === 'A'
   const evidence = isClinical ? evidenceLabel(item.evidence) : null
+  const variant = item.media ? 'card--media' : 'card--article'
+
+  const stop = (fn: () => void) => (e: MouseEvent) => { e.stopPropagation(); fn() }
 
   return (
-    <article className={`card${hero ? ' card--hero feed__wide' : ''}`} data-feed={item.feed}>
+    <article className={`card ${variant}${hero ? ' card--hero feed__wide' : ''}`} data-feed={item.feed}>
       {item.media && (
         <div className="card__cover">
           <img src={item.media.src} alt={item.media.alt} loading="lazy" />
           {isVideo && (
             <>
-              <span className="card__play">
+              <button type="button" className="card__play" aria-label="Смотреть видео" onClick={stop(onOpen)}>
                 <span className="card__playdot"><Icon name="play" size={24} strokeWidth={1.5} /></span>
-              </span>
+              </button>
               {item.media.duration && <span className="card__dur">{item.media.duration}</span>}
             </>
           )}
@@ -87,21 +102,56 @@ export function Card({ item, hero, registered, onOpen, onPrimary, onCategory, me
 
       {item.ad && <p className="card__disclaimer">{item.ad.disclaimer}</p>}
 
-      {/* Единственное действие карточки — открыть материал по клику на карточку/заголовок.
-          Отдельная кнопка «Читать» убрана: она дублировала бы этот клик. */}
-      <div className="card__foot">
+      <div className="card__bottom">
         {item.event && (
           <button
             type="button"
-            className="btn btn--primary"
+            className="btn btn--primary btn--block"
             onClick={onPrimary}
             disabled={registered}
           >
             {registered ? (<><Icon name="check" size={15} strokeWidth={2} />Вы зарегистрированы</>) : 'Зарегистрироваться'}
           </button>
         )}
-        <span className="grow" />
-        <CardMenu {...menu} />
+
+        <div className="card__actions" id={actionsId}>
+          <button
+            type="button"
+            className="card__action"
+            aria-pressed={isUseful}
+            aria-label={isUseful ? 'Снять отметку «полезно»' : 'Отметить полезным'}
+            onClick={stop(onToggleUseful)}
+          >
+            <Icon name={isUseful ? 'thumbs-up-filled' : 'thumbs-up'} size={17} strokeWidth={1.6} />
+            <span className="card__action__label">Полезно</span>
+          </button>
+          <button
+            type="button"
+            className="card__action"
+            aria-label="Комментарии"
+            onClick={stop(onOpenComments)}
+          >
+            <Icon name="chat" size={17} strokeWidth={1.6} />
+            <span className="card__action__label">{commentsCount}</span>
+          </button>
+          <button
+            type="button"
+            className="card__action"
+            aria-pressed={isSaved}
+            aria-label={isSaved ? 'Убрать из сохранённых' : 'Сохранить'}
+            onClick={stop(onToggleSave)}
+          >
+            <Icon name={isSaved ? 'bookmark-filled' : 'bookmark'} size={17} strokeWidth={1.6} />
+            <span className="card__action__label">Сохранить</span>
+          </button>
+          <span className="grow" />
+          {showShare && (
+            <button type="button" className="card__action" aria-label="Поделиться" onClick={stop(menu.onShare)}>
+              <Icon name="external" size={17} strokeWidth={1.6} />
+            </button>
+          )}
+          <CardMenu {...menu} />
+        </div>
       </div>
     </article>
   )

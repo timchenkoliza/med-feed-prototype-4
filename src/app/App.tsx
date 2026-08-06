@@ -7,6 +7,8 @@ import { useToast } from '../hooks/useToast';
 import { Article } from './components/Article';
 import { AskAi } from './components/AskAi';
 import { Card } from './components/Card';
+import { CommentSheet, getOwnCommentsCount, mockCommentsCount } from './components/CommentSheet';
+import { isOnboardingDone, Onboarding, resetOnboarding } from './components/Onboarding';
 import { Overlay } from './components/Overlay';
 import { Register } from './components/Register';
 import { feeds, sections, specialties, typeFilters, typeLabels, ui } from './config';
@@ -32,11 +34,17 @@ export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
   const [reg, setReg] = useState<FeedItem | null>(null);
   const [specOpen, setSpecOpen] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
+  const [comments, setComments] = useState<FeedItem | null>(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
   const specTriggerRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
     navigate(app.feed === 'B' ? '/professional' : '/clinical', { replace: true });
   }, [app.feed, navigate]);
+
+  useEffect(() => {
+    if (!isOnboardingDone()) setShowOnboarding(true);
+  }, []);
 
   const openSpecSelector = (e: React.MouseEvent<HTMLButtonElement>) => {
     specTriggerRef.current = e.currentTarget;
@@ -60,10 +68,6 @@ export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
   const openSource = (i: FeedItem) => window.open(i.url, '_blank', 'noopener,noreferrer');
 
   const menuFor = (item: FeedItem) => ({
-    saved: app.isSaved(item.id),
-    useful: app.isUseful(item.id),
-    onSave: () => show(app.toggle('saved', item.id) ? ui.toast.saved : ui.toast.unsaved),
-    onUseful: () => show(app.toggle('useful', item.id) ? ui.toast.useful : ui.toast.unuseful),
     onShare: () => {
       try { navigator.clipboard?.writeText(item.url); } catch { /* прототип */ }
       show(ui.toast.shared);
@@ -77,6 +81,11 @@ export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
       show(ui.toast.muted, { label: ui.toast.undo, onClick: () => app.unhide(item.id) });
     },
     onReport: () => { app.report(item.id); show(ui.toast.reported); },
+    onWhyShown: () => show(
+      item.general
+        ? 'Показано как материал общего профессионального интереса'
+        : `Показано по вашей специальности: ${spec.label}`,
+    ),
   });
 
   const openPrimary = (item: FeedItem) => (item.event ? setReg(item) : setDetail(item));
@@ -113,7 +122,7 @@ export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
 
             <div className="hdr__actions">
               {isCompactUI && (
-                <button type="button" className="pillbtn" onClick={openSpecSelector}>
+                <button type="button" className="pillbtn" id="onb-specialty" onClick={openSpecSelector}>
                   <Icon name="user" size={15} />
                   {app.layoutMode === 'mobile' ? spec.short : spec.label}
                   <Icon name="chevron-down" size={14} />
@@ -134,7 +143,7 @@ export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
           </div>
 
           <div className="hdr__second">
-            <div className="seg" role="group" aria-label="Тип ленты">
+            <div className="seg" id="onb-feedtoggle" role="group" aria-label="Тип ленты">
               {feeds.map(f => (
                 <button
                   key={f.id}
@@ -161,7 +170,7 @@ export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
         <div className="body">
           {hasLeftRail && (
             <aside className="rail rail--left">
-              <div className="rail__group">
+              <div className="rail__group" id="onb-specialty">
                 <div className="rail__title">Специальность</div>
                 {specialties.map(s => (
                   <button key={s.id} type="button" className="rail__item" aria-pressed={app.specialty === s.id} onClick={() => app.setSpecialty(s.id)}>
@@ -232,9 +241,17 @@ export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
                   item={item}
                   hero={i === 0 && app.section === 'feed'}
                   registered={app.isRegistered(item.id)}
+                  isSaved={app.isSaved(item.id)}
+                  isUseful={app.isUseful(item.id)}
+                  commentsCount={mockCommentsCount + getOwnCommentsCount(item.id)}
+                  showShare={hasLeftRail}
+                  actionsId={i === 0 && app.section === 'feed' ? 'onb-actions' : undefined}
                   onOpen={() => setDetail(item)}
                   onPrimary={() => openPrimary(item)}
                   onCategory={() => app.setType(item.type)}
+                  onToggleSave={() => show(app.toggle('saved', item.id) ? ui.toast.saved : ui.toast.unsaved)}
+                  onToggleUseful={() => show(app.toggle('useful', item.id) ? ui.toast.useful : ui.toast.unuseful)}
+                  onOpenComments={() => setComments(item)}
                   menu={menuFor(item)}
                 />
               ))}
@@ -318,7 +335,7 @@ export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
             <button
               type="button"
               className="research__reset"
-              onClick={() => { app.reset(); setDetail(null); show(ui.toast.reset); }}
+              onClick={() => { app.reset(); setDetail(null); resetOnboarding(); setShowOnboarding(true); show(ui.toast.reset); }}
             >
               <Icon name="refresh" size={14} />
               <span>Сбросить состояние</span>
@@ -383,6 +400,10 @@ export default function App({ initialFeed }: { initialFeed?: FeedId } = {}) {
       )}
 
       {ai && <AskAi item={ai} onClose={() => setAi(null)} />}
+
+      {comments && <CommentSheet item={comments} onClose={() => setComments(null)} />}
+
+      {showOnboarding && <Onboarding onDone={() => setShowOnboarding(false)} />}
 
       {reg && (
         <Register

@@ -1,15 +1,13 @@
+import type { MouseEvent as ReactMouseEvent } from 'react'
 import { useEffect, useRef, useState } from 'react'
 import { Icon } from '../../components/common/Icon'
 
 export interface MenuActions {
-  saved: boolean
-  useful: boolean
-  onSave: () => void
-  onUseful: () => void
   onShare: () => void
   onHide: () => void
   onMute: () => void
   onReport: () => void
+  onWhyShown: () => void
 }
 
 export function CardMenu(a: MenuActions) {
@@ -23,7 +21,7 @@ export function CardMenu(a: MenuActions) {
     return () => document.removeEventListener('mousedown', onDoc)
   }, [open])
 
-  const run = (fn: () => void) => (e: React.MouseEvent) => { e.stopPropagation(); setOpen(false); fn() }
+  const run = (fn: () => void) => (e: ReactMouseEvent) => { e.stopPropagation(); setOpen(false); fn() }
 
   return (
     <div className="menu" ref={ref} onClick={e => e.stopPropagation()}>
@@ -40,24 +38,16 @@ export function CardMenu(a: MenuActions) {
 
       {open && (
         <div className="menu__list" role="menu">
-          <button type="button" role="menuitem" className="menu__item" onClick={run(a.onSave)}>
-            <Icon name={a.saved ? 'bookmark-filled' : 'bookmark'} size={17} strokeWidth={1.6} />
-            {a.saved ? 'Убрать из сохранённых' : 'Сохранить'}
-          </button>
-          <button type="button" role="menuitem" className="menu__item" onClick={run(a.onUseful)}>
-            <Icon name={a.useful ? 'thumbs-up-filled' : 'thumbs-up'} size={17} strokeWidth={1.6} />
-            {a.useful ? 'Снять отметку «полезно»' : 'Отметить полезным'}
-          </button>
-          <button type="button" role="menuitem" className="menu__item" onClick={run(a.onShare)}>
-            <Icon name="external" size={17} strokeWidth={1.6} />Поделиться
-          </button>
-          <div className="menu__sep" />
           <button type="button" role="menuitem" className="menu__item" onClick={run(a.onHide)}>
             <Icon name="eye-off" size={17} strokeWidth={1.6} />Скрыть материал
           </button>
           <button type="button" role="menuitem" className="menu__item" onClick={run(a.onMute)}>
-            <Icon name="sliders" size={17} strokeWidth={1.6} />Не показывать похожее
+            <Icon name="sliders" size={17} strokeWidth={1.6} />Не показывать источник
           </button>
+          <button type="button" role="menuitem" className="menu__item" onClick={run(a.onWhyShown)}>
+            <Icon name="compass" size={17} strokeWidth={1.6} />Почему показано
+          </button>
+          <div className="menu__sep" />
           <button type="button" role="menuitem" className="menu__item" onClick={run(a.onReport)}>
             <Icon name="close" size={17} strokeWidth={1.6} />Сообщить о проблеме
           </button>
