@@ -75,7 +75,7 @@ export function primaryActionLabel(type: ItemType, hasEvent: boolean): string {
 }
 
 export const ui = {
-  product: 'Яндекс Мед',
+  product: 'Мед Портал',
   section: 'Лента для врача',
   storageKey: 'medya.feed.v2',
   searchPlaceholder: 'Поиск по ленте: тема, источник, препарат',
