@@ -1,0 +1,65 @@
+{
+  "version": "0.1.0",
+  "pipelines": [
+    "facts_to_summary",
+    "translate_to_summary",
+    "summary_to_translate",
+    "direct_cross_lingual"
+  ],
+  "hardGates": {
+    "criticalErrors": [
+      "wrong_drug_or_intervention",
+      "wrong_population",
+      "wrong_comparator",
+      "wrong_direction_of_effect",
+      "wrong_dose_unit_or_duration",
+      "wrong_sample_size",
+      "negation_lost",
+      "association_to_causation",
+      "unsupported_clinical_recommendation",
+      "ungrounded_claim"
+    ],
+    "requireEvidenceForGeneratedClaims": true,
+    "requireEvidenceForPracticeBullets": true,
+    "preserveProtectedValues": true
+  },
+  "translation": {
+    "semanticEquivalence": true,
+    "noAddedFacts": true,
+    "preserveModality": true,
+    "preserveCausality": true,
+    "preserveNegation": true,
+    "preserveNumbers": true,
+    "preserveUnits": true,
+    "preserveDose": true,
+    "preserveConfidenceIntervals": true,
+    "preservePValues": true,
+    "preserveTimeframes": true,
+    "drugNamesPolicy": "Do not invent localized trade names. Keep trade names as in source; normalize INN only when explicitly defined in project terminology."
+  },
+  "forPractice": {
+    "allowedTypes": [
+      "applicability",
+      "practice_change",
+      "limitation",
+      "monitoring_consideration"
+    ],
+    "unsupportedActionIsCritical": true,
+    "fallbackWhenNoActionSupported": [
+      "applicability",
+      "limitation"
+    ]
+  },
+  "softDimensions": [
+    "groundedness",
+    "completeness",
+    "medical_correctness",
+    "translation_fidelity",
+    "usefulness",
+    "readability"
+  ],
+  "softScale": {
+    "min": 1,
+    "max": 5
+  }
+}
