@@ -1,0 +1,129 @@
+{
+  "schemaVersion": "0.1.0",
+  "status": "draft_for_expert_review",
+  "articleId": "FDA_2026_08_28_MIMRYLO_PV",
+  "source": {
+    "language": "en",
+    "publisher": "U.S. Food and Drug Administration",
+    "sourceType": "regulatory_news_release",
+    "authors": [],
+    "publicationDate": "2026-08-28",
+    "url": "https://www.fda.gov/news-events/press-announcements/fda-approves-first-drug-its-kind-polycythemia-vera-rare-blood-disorder",
+    "originalTitle": "FDA Approves First Drug of Its Kind for Polycythemia Vera, a Rare Blood Disorder",
+    "originalDescription": "First-in-class therapy targets the biology driving red blood cell overproduction in polycythemia vera"
+  },
+  "translationGold": {
+    "status": "draft_for_expert_review",
+    "titleRu": "FDA одобрило первый в своём классе препарат для лечения истинной полицитемии — редкого заболевания крови",
+    "descriptionRu": "Терапия первого в своём классе воздействует на биологический механизм избыточной продукции эритроцитов при истинной полицитемии"
+  },
+  "factsGold": [
+    {
+      "factId": "F1",
+      "kind": "regulatory_event",
+      "value": "FDA approved Mimrylo (rusfertide) for adults with polycythemia vera",
+      "evidenceLocator": "release paragraph 1",
+      "evidenceAnchor": "approved Mimrylo (rusfertide)"
+    },
+    {
+      "factId": "F2",
+      "kind": "mechanism",
+      "value": "Mimrylo is the first approved polycythemia vera treatment that mimics hepcidin and limits iron availability for red blood cell production",
+      "evidenceLocator": "release paragraph 2",
+      "evidenceAnchor": "mimics hepcidin"
+    },
+    {
+      "factId": "F3",
+      "kind": "study_design",
+      "value": "VERIFY was a multicenter randomized double-blind placebo-controlled phase 3 study",
+      "evidenceLocator": "release trial paragraph",
+      "evidenceAnchor": "phase 3 study"
+    },
+    {
+      "factId": "F4",
+      "kind": "population",
+      "value": "293 adults with polycythemia vera who required frequent phlebotomies despite ongoing standard-of-care therapy",
+      "evidenceLocator": "release trial paragraph",
+      "evidenceAnchor": "293 adults"
+    },
+    {
+      "factId": "F5",
+      "kind": "randomization",
+      "value": "Patients were randomized 1:1 to Mimrylo or placebo for 32 weeks",
+      "evidenceLocator": "release trial paragraph",
+      "evidenceAnchor": "randomized 1:1"
+    },
+    {
+      "factId": "F6",
+      "kind": "dose",
+      "value": "Mimrylo started at 19 mg subcutaneously once weekly and was titrated to maintain hematocrit below 45%",
+      "evidenceLocator": "release dosing paragraph",
+      "evidenceAnchor": "started at 19 mg"
+    },
+    {
+      "factId": "F7",
+      "kind": "outcome",
+      "value": "76.9% of patients receiving Mimrylo required no phlebotomies compared with 32.9% receiving placebo",
+      "evidenceLocator": "release efficacy paragraph",
+      "evidenceAnchor": "76.9%"
+    },
+    {
+      "factId": "F8",
+      "kind": "safety",
+      "value": "The most common adverse reactions were injection-site reactions and anemia",
+      "evidenceLocator": "release efficacy paragraph",
+      "evidenceAnchor": "injection site reactions"
+    },
+    {
+      "factId": "F9",
+      "kind": "regulatory_status",
+      "value": "Mimrylo received priority review; approval was granted to Takeda Pharmaceuticals America, Inc.",
+      "evidenceLocator": "release final paragraph",
+      "evidenceAnchor": "priority review"
+    }
+  ],
+  "protectedValues": [
+    "293",
+    "1:1",
+    "32 weeks",
+    "19 mg",
+    "once weekly",
+    "45%",
+    "76.9%",
+    "32.9%"
+  ],
+  "classificationGold": {
+    "cardType": "1-1",
+    "contentType": "regulatory_approval",
+    "studyType": "phase_3_randomized_double_blind_placebo_controlled_trial",
+    "sampleSize": 293,
+    "evidenceLevel": "not_assigned_pending_scale",
+    "specialties": ["hematology"],
+    "clinicalTopics": ["polycythemia_vera"],
+    "interventions": ["rusfertide", "Mimrylo", "hepcidin_mimetic", "drug_therapy"],
+    "tags": ["истинная полицитемия", "лекарственная терапия", "FDA", "фаза III", "безопасность"]
+  },
+  "productGold": {
+    "status": "draft_for_expert_review",
+    "titleRu": "FDA одобрило Mimrylo (русфертид) для взрослых с истинной полицитемией",
+    "brief": "FDA одобрило Mimrylo (русфертид) для взрослых с истинной полицитемией. В исследовании III фазы VERIFY у 293 пациентов препарат сравнивали с плацебо в течение 32 недель: без флеботомий обошлись 76,9% пациентов в группе Mimrylo и 32,9% в группе плацебо.",
+    "briefFactRefs": ["F1", "F3", "F4", "F5", "F7"],
+    "forPractice": [
+      {
+        "type": "applicability",
+        "text": "Данные относятся к взрослым пациентам, которым требовались частые флеботомии несмотря на стандартную терапию.",
+        "factRefs": ["F4"]
+      },
+      {
+        "type": "practice_change",
+        "text": "Одобрена первая для истинной полицитемии терапия, имитирующая действие гепсидина и ограничивающая доступность железа для образования эритроцитов.",
+        "factRefs": ["F1", "F2"]
+      },
+      {
+        "type": "monitoring_consideration",
+        "text": "Среди наиболее частых нежелательных реакций FDA указывает реакции в месте инъекции и анемию.",
+        "factRefs": ["F8"]
+      }
+    ]
+  }
+}
