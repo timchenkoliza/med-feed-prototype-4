@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Med Feed Agent Lab</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#111827;background:#f5f7fb}
+    *{box-sizing:border-box}body{margin:0}.shell{max-width:1440px;margin:0 auto;padding:28px}.top{display:flex;gap:20px;justify-content:space-between;align-items:flex-start;margin-bottom:22px}.title h1{font-size:30px;line-height:1.1;margin:0 0 8px}.title p{margin:0;color:#64748b;max-width:780px}.badge{padding:8px 12px;border-radius:999px;background:#fff;border:1px solid #e2e8f0;font-size:13px;white-space:nowrap}.panel{background:#fff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 8px 28px rgba(15,23,42,.05)}.input-panel{padding:18px;margin-bottom:18px}.form{display:flex;gap:10px}input{flex:1;border:1px solid #cbd5e1;border-radius:12px;padding:14px 15px;font-size:15px;outline:none}input:focus{border-color:#64748b;box-shadow:0 0 0 3px rgba(100,116,139,.12)}button{border:0;border-radius:12px;padding:0 18px;background:#111827;color:#fff;font-weight:650;cursor:pointer}button:disabled{opacity:.5;cursor:wait}.hint{font-size:12px;color:#94a3b8;margin-top:9px}.grid{display:grid;grid-template-columns:410px 1fr;gap:18px}.agents{padding:16px}.agents h2,.result h2{font-size:16px;margin:2px 0 14px}.agent{display:grid;grid-template-columns:34px 1fr auto;gap:10px;padding:12px 4px;border-top:1px solid #eef2f7}.agent:first-of-type{border-top:0}.dot{width:30px;height:30px;border-radius:10px;background:#eef2ff;display:grid;place-items:center;font-size:12px;font-weight:700}.agent-name{font-weight:650;font-size:14px}.agent-role{font-size:12px;color:#64748b;margin-top:3px;line-height:1.35}.status{font-size:11px;border-radius:999px;padding:5px 8px;background:#f1f5f9;color:#64748b;height:max-content}.status.running{background:#fff7ed;color:#c2410c}.status.done{background:#ecfdf5;color:#047857}.status.error{background:#fef2f2;color:#b91c1c}.result{padding:18px;min-height:620px}.empty{height:520px;display:grid;place-items:center;color:#94a3b8;text-align:center}.decision{display:inline-flex;padding:7px 10px;border-radius:10px;font-weight:750;font-size:13px;margin-bottom:14px}.decision.PASS{background:#ecfdf5;color:#047857}.decision.REVIEW{background:#fff7ed;color:#c2410c}.decision.FAIL{background:#fef2f2;color:#b91c1c}.section{border-top:1px solid #eef2f7;padding-top:16px;margin-top:16px}.section h3{font-size:14px;margin:0 0 8px;color:#334155}.orig{font-size:13px;color:#64748b;line-height:1.5}.headline{font-size:24px;line-height:1.25;font-weight:760;margin:6px 0 10px}.brief{font-size:15px;line-height:1.55}.bullets{margin:8px 0 0;padding-left:20px;line-height:1.5}.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}.chip{font-size:12px;padding:5px 8px;border-radius:999px;background:#f1f5f9}.audit-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-top:10px}.score{background:#f8fafc;border-radius:12px;padding:10px}.score b{display:block;font-size:18px}.score span{font-size:11px;color:#64748b}.errorbox{background:#fff1f2;border:1px solid #fecdd3;border-radius:12px;padding:12px;margin-top:10px}.errorbox strong{color:#9f1239}.log{margin-top:14px;background:#0f172a;color:#cbd5e1;border-radius:12px;padding:10px 12px;font:12px/1.45 ui-monospace,SFMono-Regular,Menlo,monospace;max-height:160px;overflow:auto}.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}.smallcard{background:#f8fafc;border-radius:14px;padding:12px}.smallcard h4{font-size:12px;margin:0 0 8px;color:#64748b;text-transform:uppercase;letter-spacing:.05em}.smallcard p{margin:0;line-height:1.45;font-size:14px}@media(max-width:920px){.grid{grid-template-columns:1fr}.form{flex-direction:column}button{height:46px}.top{flex-direction:column}.audit-grid{grid-template-columns:1fr 1fr}.two{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <div class="top">
+    <div class="title"><h1>Med Feed Agent Lab</h1><p>Независимое рабочее пространство для статьи: источник → факты → перевод → «Кратко» / «Для практики» → классификация → медицинский аудит → решение.</p></div>
+    <div id="provider" class="badge">проверяю конфигурацию…</div>
+  </div>
+
+  <div class="panel input-panel">
+    <form id="runForm" class="form">
+      <input id="articleUrl" type="url" required value="https://www.fda.gov/news-events/press-announcements/fda-approves-first-drug-its-kind-polycythemia-vera-rare-blood-disorder" placeholder="https://…" />
+      <button id="runBtn">Запустить агентов</button>
+    </form>
+    <div class="hint">В live-режиме нужен LLM_API_KEY. Без него workspace работает в mock-режиме и не делает вид, что медицинская генерация валидна.</div>
+  </div>
+
+  <div class="grid">
+    <div class="panel agents">
+      <h2>Команда агентов</h2>
+      <div id="agents"></div>
+      <div id="log" class="log">Готово к запуску.</div>
+    </div>
+    <div class="panel result">
+      <h2>Результат</h2>
+      <div id="result" class="empty">Вставьте ссылку на статью и запустите пайплайн.</div>
+    </div>
+  </div>
+</div>
+<script>
+const state={agents:[],statuses:{},runId:null,events:[]}
+const $=s=>document.querySelector(s)
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))
+
+async function init(){
+  const [health,agents]=await Promise.all([fetch('/api/health').then(r=>r.json()),fetch('/api/agents').then(r=>r.json())])
+  state.agents=agents.agents
+  $('#provider').textContent=`${health.provider.mode.toUpperCase()} · ${health.provider.model}`
+  renderAgents()
+}
+function renderAgents(){
+  $('#agents').innerHTML=state.agents.map((a,i)=>{
+    const st=state.statuses[a.id]||'idle'
+    return `<div class="agent"><div class="dot">${String(i+1).padStart(2,'0')}</div><div><div class="agent-name">${esc(a.name)}</div><div class="agent-role">${esc(a.role)}</div></div><div class="status ${st}">${st}</div></div>`
+  }).join('')
+}
+function log(msg){
+  state.events.push(msg); $('#log').textContent=state.events.slice(-18).join('\n'); $('#log').scrollTop=$('#log').scrollHeight
+}
+function applyEvent(e){
+  if(e.type==='agent'){
+    state.statuses[e.agentId]=e.status; renderAgents(); log(`${e.agentId}: ${e.status}${e.detail?` · ${JSON.stringify(e.detail)}`:''}`)
+  }else if(e.type==='run') log(`run: ${e.status}${e.decision?` · ${e.decision}`:''}${e.error?` · ${e.error}`:''}`)
+}
+function score(v,label){return `<div class="score"><b>${esc(v??'—')}</b><span>${label}</span></div>`}
+function renderResult(final){
+  const p=final.product||{},a=final.audit||{},s=final.source||{},t=final.translation||{}
+  const errors=a.critical_errors||[]
+  $('#result').className=''
+  $('#result').innerHTML=`
+    <div class="decision ${esc(final.decision)}">${esc(final.decision)}</div>
+    <div class="section" style="border-top:0;padding-top:0;margin-top:0">
+      <h3>Источник</h3>
+      <div class="orig"><b>${esc(s.publisher)}</b> · ${esc(s.publication_date_original||'дата не извлечена')}</div>
+      <div class="orig" style="margin-top:5px">${esc(s.title_original)}</div>
+    </div>
+    <div class="section"><h3>Переводный benchmark</h3><div class="two"><div class="smallcard"><h4>Заголовок</h4><p>${esc(t.title_ru)}</p></div><div class="smallcard"><h4>Описание</h4><p>${esc(t.description_ru)}</p></div></div></div>
+    <div class="section"><h3>Продуктовая карточка</h3><div class="headline">${esc(p.title_ru)}</div><div class="brief">${(p.brief||[]).map(esc).join(' ')}</div>${(p.for_practice||[]).length?`<h3 style="margin-top:16px">Для практики</h3><ul class="bullets">${p.for_practice.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}<div class="chips">${[...(p.specialties||[]),...(p.clinical_topics||[]),...(p.tags||[])].map(x=>`<span class="chip">${esc(x)}</span>`).join('')}</div></div>
+    <div class="section"><h3>QA</h3><div class="audit-grid">${score(a.factuality,'factuality')}${score(a.completeness,'completeness')}${score(a.medical_correctness,'medical correctness')}${score(a.translation_fidelity,'translation fidelity')}</div>${errors.length?`<div class="errorbox"><strong>Critical errors: ${errors.length}</strong><ul class="bullets">${errors.map(e=>`<li><b>${esc(e.code)}</b>: ${esc(e.reason||e.claim)}</li>`).join('')}</ul></div>`:'<div class="smallcard" style="margin-top:10px"><p>Критических ошибок не найдено текущими проверками.</p></div>'}</div>
+    <div class="section"><h3>Provenance</h3><div class="orig">pipeline: ${esc(final.provenance?.pipeline)}<br>provider: ${esc(final.provenance?.provider_mode)} · model: ${esc(final.provenance?.model)}</div></div>`
+}
+
+$('#runForm').addEventListener('submit',async e=>{
+  e.preventDefault(); state.statuses={};state.events=[];renderAgents();$('#runBtn').disabled=true;$('#result').className='empty';$('#result').textContent='Агенты работают…';log('Создаю run…')
+  try{
+    const r=await fetch('/api/runs',{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify({url:$('#articleUrl').value})})
+    const data=await r.json(); if(!r.ok) throw new Error(data.error||'Не удалось создать run')
+    state.runId=data.runId
+    const es=new EventSource(`/api/runs/${data.runId}/events`)
+    es.onmessage=ev=>applyEvent(JSON.parse(ev.data))
+    es.onerror=()=>es.close()
+    let snap
+    while(true){
+      await new Promise(r=>setTimeout(r,1000)); snap=await fetch(`/api/runs/${data.runId}`).then(r=>r.json()); if(snap.status!=='running') break
+    }
+    es.close(); if(snap.status==='error') throw new Error(snap.error)
+    renderResult(snap.result.final)
+  }catch(err){$('#result').className='empty';$('#result').textContent=`Ошибка: ${err.message}`;log(`ERROR: ${err.message}`)}finally{$('#runBtn').disabled=false}
+})
+init().catch(err=>{log(`INIT ERROR: ${err.message}`);$('#provider').textContent='ошибка конфигурации'})
+</script>
+</body>
+</html>
