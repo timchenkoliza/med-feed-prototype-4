@@ -1,2 +1,3 @@
 runs/*.json
 .env
+.env.local
