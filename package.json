@@ -11,7 +11,9 @@
     "build:pages": "npm run build && rm -rf docs && cp -R dist docs && touch docs/.nojekyll",
     "sources:import": "node scripts/import-sources.mjs",
     "news:ingest": "node scripts/ingest-news.mjs",
-    "data:refresh": "npm run sources:import && npm run news:ingest"
+    "data:refresh": "npm run sources:import && npm run news:ingest",
+    "harness:validate": "node scripts/harness.mjs validate",
+    "harness:score": "node scripts/harness.mjs score"
   },
   "dependencies": {
     "react": "^18.3.1",
