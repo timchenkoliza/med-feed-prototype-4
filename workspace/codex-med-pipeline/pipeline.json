@@ -1,0 +1,76 @@
+{
+  "version": "0.1.0",
+  "name": "med-feed-codex-pipeline",
+  "entry_command": "Run med pipeline for <URL>",
+  "requires_api_key": false,
+  "execution": {
+    "preferred": "subagents_when_available",
+    "fallback": "sequential_isolated_roles"
+  },
+  "agents": [
+    {
+      "id": "source_guardian",
+      "name": "Source Guardian",
+      "depends_on": [],
+      "allowed_inputs": ["user_request", "url"],
+      "output": "01-source.md"
+    },
+    {
+      "id": "fact_extractor",
+      "name": "Fact Extractor",
+      "depends_on": ["source_guardian"],
+      "allowed_inputs": ["01-source.md"],
+      "output": "02-facts.json"
+    },
+    {
+      "id": "medical_translator",
+      "name": "Medical Translator",
+      "depends_on": ["source_guardian"],
+      "allowed_inputs": ["01-source.md:title_original", "01-source.md:description_original"],
+      "output": "03-translation.json"
+    },
+    {
+      "id": "summary_editor",
+      "name": "Summary Editor",
+      "depends_on": ["fact_extractor"],
+      "allowed_inputs": ["02-facts.json"],
+      "output": "04-product.json"
+    },
+    {
+      "id": "clinical_classifier",
+      "name": "Clinical Classifier",
+      "depends_on": ["fact_extractor"],
+      "allowed_inputs": ["02-facts.json"],
+      "output": "05-classification.json"
+    },
+    {
+      "id": "medical_auditor",
+      "name": "Medical Auditor",
+      "depends_on": ["fact_extractor", "medical_translator", "summary_editor", "clinical_classifier"],
+      "allowed_inputs": ["01-source.md", "02-facts.json", "03-translation.json", "04-product.json", "05-classification.json"],
+      "output": "06-audit.json"
+    },
+    {
+      "id": "editor_in_chief",
+      "name": "Editor in Chief",
+      "depends_on": ["medical_auditor"],
+      "allowed_inputs": ["01-source.md", "02-facts.json", "03-translation.json", "04-product.json", "05-classification.json", "06-audit.json"],
+      "output": "07-final.md"
+    }
+  ],
+  "hard_gates": [
+    "wrong_drug_or_intervention",
+    "wrong_population",
+    "wrong_comparator",
+    "wrong_effect_direction",
+    "invented_or_changed_number",
+    "wrong_dose_unit_or_time_window",
+    "wrong_contraindication_or_safety",
+    "unsupported_clinical_recommendation",
+    "association_to_causation",
+    "modality_or_negation_change",
+    "endpoint_confusion",
+    "subgroup_generalization",
+    "regulatory_status_distortion"
+  ]
+}
