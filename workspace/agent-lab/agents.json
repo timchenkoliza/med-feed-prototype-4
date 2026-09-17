@@ -1,0 +1,51 @@
+[
+  {
+    "id": "source_guardian",
+    "name": "Source Guardian",
+    "role": "Извлекает исходный материал и метаданные без переформулирования",
+    "dependsOn": [],
+    "kind": "deterministic"
+  },
+  {
+    "id": "fact_extractor",
+    "name": "Fact Extractor",
+    "role": "Извлекает проверяемые факты, PICO, числа, ограничения и evidence spans",
+    "dependsOn": ["source_guardian"],
+    "kind": "llm"
+  },
+  {
+    "id": "translator",
+    "name": "Medical Translator",
+    "role": "Переводит title/description с сохранением терминов, чисел, модальности и причинности",
+    "dependsOn": ["source_guardian"],
+    "kind": "llm"
+  },
+  {
+    "id": "summary_editor",
+    "name": "Summary Editor",
+    "role": "Пишет русский заголовок, «Кратко» и «Для практики» только по fact layer",
+    "dependsOn": ["fact_extractor"],
+    "kind": "llm"
+  },
+  {
+    "id": "classifier",
+    "name": "Clinical Classifier",
+    "role": "Определяет тип материала/исследования, специальности, темы, вмешательства и теги",
+    "dependsOn": ["fact_extractor"],
+    "kind": "llm"
+  },
+  {
+    "id": "medical_auditor",
+    "name": "Medical Auditor",
+    "role": "Ищет критические медицинские ошибки, неподтверждённые выводы и потери фактов",
+    "dependsOn": ["fact_extractor", "translator", "summary_editor", "classifier"],
+    "kind": "hybrid"
+  },
+  {
+    "id": "editor_in_chief",
+    "name": "Editor in Chief",
+    "role": "Собирает финальную карточку и решает PASS / REVIEW / FAIL по hard gates",
+    "dependsOn": ["medical_auditor"],
+    "kind": "deterministic"
+  }
+]
